@@ -107,6 +107,13 @@ func (ic *InstrumentedConn) Close() error {
 		errorMessage = ic.ConnError.Error()
 	}
 
+	var srcIP, srcPortStr string
+	var srcPort int
+	if localAddr := ic.Conn.LocalAddr(); localAddr != nil {
+		srcIP, srcPortStr, _ = net.SplitHostPort(localAddr.String())
+		srcPort, _ = strconv.Atoi(srcPortStr)
+	}
+
 	var dstIP, dstPortStr string
 	var dstPort int
 	if remoteAddr := ic.Conn.RemoteAddr(); remoteAddr != nil {
@@ -122,6 +129,8 @@ func (ic *InstrumentedConn) Close() error {
 		"duration":      duration,
 		"error":         errorMessage,
 		"last_activity": time.Unix(0, atomic.LoadInt64(ic.LastActivity)).UTC(),
+		"src_ip":        srcIP,
+		"src_port":      srcPort,
 		"dst_ip":        dstIP,
 		"dst_port":      dstPort,
 	}).Info(CanonicalProxyConnClose)
