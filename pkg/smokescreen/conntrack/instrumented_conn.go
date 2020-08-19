@@ -194,6 +194,7 @@ func (ic *InstrumentedConn) Stats() *InstrumentedConnStats {
 	return &InstrumentedConnStats{
 		Role:                     ic.Role,
 		Rhost:                    ic.OutboundHost,
+		Laddr:                    ic.Conn.LocalAddr().String(),
 		Raddr:                    ic.Conn.RemoteAddr().String(),
 		Created:                  ic.Start,
 		BytesIn:                  *ic.BytesIn,

@@ -5,6 +5,7 @@ import "time"
 type InstrumentedConnStats struct {
 	Role                     string    `json:"role"`
 	Rhost                    string    `json:"rhost"`
+	Laddr                    string    `json:"laddr"`
 	Raddr                    string    `json:"raddr"`
 	Created                  time.Time `json:"created"`
 	BytesIn                  uint64    `json:"bytesIn"`
